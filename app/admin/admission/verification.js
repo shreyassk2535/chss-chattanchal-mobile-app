@@ -7,7 +7,8 @@ import {
   TextInput,
   TouchableOpacity,
   RefreshControl,
-  ScrollView,
+  FlatList,
+  Dimensions
 } from "react-native";
 import { useRouter } from "expo-router";
 import verificationImg from "../../../imgs/adminImages/Tick.png";
@@ -15,6 +16,9 @@ import Hero from "../../../components/common/Hero";
 
 import { Context } from "../../../stores/Context";
 import Alert from "../../../components/common/Alert";
+import filter from "lodash.filter"
+
+const { width, height } = Dimensions.get("window");
 
 export default function Verification() {
   const { styles, isAdminLoggedIn } = useContext(Context);
@@ -29,8 +33,7 @@ export default function Verification() {
   const [error, setError] = useState("");
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortColumn, setSortColumn] = useState("name");
-  const [sortOrder, setSortOrder] = useState("asc");
+  const [filteredData, setFilteredData] = useState(data)
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -39,10 +42,10 @@ export default function Verification() {
     loadData();
   };
 
-  function loadData() {
+  async function loadData() {
     setError("");
-    Axios.get("admin/students-to-verify")
-      .then((res) => setData(res.data))
+    await Axios.get("admin/students-to-verify")
+      .then((res) => {setData(res.data); setFilteredData(res.data)})
       .catch((err) => {
         if (err.response == undefined) {
           setError("Server connection error");
@@ -70,92 +73,49 @@ export default function Verification() {
   }
 
   const handleSearch = (value) => {
-    setSearchQuery(value);
+    setSearchQuery(value.toLowerCase());
+    const finalData = filter(data, (student)=>{
+      return contains(student, value.toLowerCase())
+    })
+    setFilteredData(finalData)
   };
-
-  const handleSort = (column) => {
-    if (sortColumn === column) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortColumn(column);
-      setSortOrder("asc");
+  
+  const contains = (student, query) =>{
+    
+    const name = student.name
+    const admissionNo = student.admissionNo
+    
+    if (name == undefined || admissionNo == undefined){
+      return false
     }
-  };
-
-  const filteredData = data.filter((item) => {
-    const { name, admissionNo } = item;
-    const searchFields = `${name}${admissionNo}`.toLowerCase();
-    return searchFields.includes(searchQuery.toLowerCase());
-  });
-
-  const sortedData = filteredData.sort((a, b) => {
-    if (sortColumn) {
-      const columnA = a[sortColumn];
-      const columnB = b[sortColumn];
-
-      if (typeof columnA === "string" && typeof columnB === "string") {
-        if (isDate(columnA) && isDate(columnB)) {
-          // Sort date strings
-          const dateA = parseDate(columnA);
-          const dateB = parseDate(columnB);
-          return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
-        } else if (!isNaN(parseFloat(columnA)) && !isNaN(parseFloat(columnB))) {
-          // Sort number strings
-          const numA = parseFloat(columnA);
-          const numB = parseFloat(columnB);
-          return sortOrder === "asc" ? numA - numB : numB - numA;
-        } else {
-          // Sort character strings
-          if (columnA < columnB) {
-            return sortOrder === "asc" ? -1 : 1;
-          }
-          if (columnA > columnB) {
-            return sortOrder === "asc" ? 1 : -1;
-          }
-        }
-      }
+    if (
+        name.toLowerCase().includes(query) ||
+        admissionNo.toString().includes(query)
+      ){
+        return true
     }
-    return 0;
-  });
-
-  function isDate(dateString) {
-    // Check if a string represents a valid date
-    const dateRegex = /^\d{2}[./-]\d{2}[./-]\d{4}$/;
-    return dateRegex.test(dateString);
+    return false
   }
 
-  function parseDate(dateString) {
-    // Parse a date string in format "DD-MM-YYYY" or "DD/MM/YYYY" to a Date object
-    const [day, month, year] = dateString.split(/[./-]/);
-    return new Date(year, month - 1, day);
-  }
-
-  const getSortIndicator = (column) => {
-    if (sortColumn === column) {
-      return sortOrder === "asc" ? "▲" : "▼";
-    }
-    return "";
-  };
-
-  useEffect(loadData, []);
+  useEffect(()=>{loadData()}, []);
 
   return (
     <SafeAreaView
       style={{
-        backgroundColor: styles.common.backgroundColor,
+        backgroundColor: styles.colors.background._950,
         flex: 1,
       }}
     >
-      <ScrollView
+      <View
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
         }
         style={{
-          paddingLeft: 40,
-          paddingRight: 40,
+          paddingLeft: 20,
+          paddingRight: 20,
+          paddingTop: 62
         }}
       >
-        <Hero img={verificationImg} />
 
         <View>
           <View
@@ -183,8 +143,8 @@ export default function Verification() {
             />
           </View>
 
-          <View style={styles.tableBox}>
-            {/* Replace the <table> and related elements with equivalent components */}
+          {/*<View style={styles.tableBox}>
+          
             <View style={styles.table}>
               <View style={styles.tableHeader}>
                 <TouchableOpacity
@@ -245,8 +205,9 @@ export default function Verification() {
                   <Text
                     style={{
                       padding: 20,
-                      color: "grey",
-                      backgroundColor: styles.common.inputBackground,
+                      color: styles.colors.text._200,
+                      backgroundColor: styles.colors.background._900,
+                      opacity: .5
                     }}
                   >
                     No data found
@@ -258,8 +219,8 @@ export default function Verification() {
                       style={{
                         ...styles.tableRow,
                         borderTopWidth: 1,
-                        borderColor: styles.common.borderColor,
-                        backgroundColor: styles.common.inputBackground,
+                        borderColor: styles.colors.background._800,
+                        backgroundColor: styles.colors.background._900,
                       }}
                     >
                       <TouchableOpacity
@@ -285,12 +246,13 @@ export default function Verification() {
                             flex: 1,
                             // backgroundColor: styles.common.inputBackground,
                             justifyContent: "center",
+                            
                           }}
                         >
                           <Text
                             style={{
                               textAlign: "center",
-                              color: styles.common.color,
+                              color: styles.colors.text._50,
                             }}
                           >
                             {item.name}
@@ -300,7 +262,7 @@ export default function Verification() {
                           <Text
                             style={{
                               textAlign: "center",
-                              color: styles.common.color,
+                              color: styles.colors.text._50,
                             }}
                           >
                             {item.class}
@@ -315,7 +277,7 @@ export default function Verification() {
                           <Text
                             style={{
                               textAlign: "center",
-                              color: styles.common.color,
+                              color: styles.colors.text._50,
                             }}
                           >
                             {item.admissionNo}
@@ -331,7 +293,7 @@ export default function Verification() {
                           <Text
                             style={{
                               textAlign: "center",
-                              color: styles.common.color,
+                              color: styles.colors.text._50,
                             }}
                           >
                             {item.dob}
@@ -348,7 +310,7 @@ export default function Verification() {
                         <TouchableOpacity
                           style={{
                             flex: 1,
-                            backgroundColor: "rgb(46, 194, 24)",
+                            backgroundColor: styles.colors.primary._50,
                             justifyContent: "center",
                             borderRadius: 50,
                             maxWidth: 50,
@@ -359,7 +321,7 @@ export default function Verification() {
                           <Text
                             style={{
                               textAlign: "center",
-                              color: "white",
+                              color: styles.colors.text._950,
                               fontSize: 13,
                             }}
                           >
@@ -372,9 +334,158 @@ export default function Verification() {
                 )}
               </View>
             </View>
+          </View>*/}
+          <View style={styles.tableBox}>
+          
+            <View style={styles.table}>
+              <View style={styles.tableHeader}>
+                  <Text style={{ 
+                   color: "white",
+                    flex: 1,
+                    textAlign: "center",
+                    }}>
+                    Name
+                  </Text>
+                  <Text style={{
+                    color: "white",
+                    flex: 1,
+                    textAlign: "center",
+                  }}>
+                    Class
+                  </Text>
+                  <Text style={{
+                    color: "white" ,
+                    flex: 1,
+                    textAlign: "center",
+                  }}>
+                    Adm No.
+                  </Text>
+                  <Text style={{ 
+                    color: "white",
+                    flex: 1,
+                    textAlign: "center",
+                    }}>
+                    D.O.B
+                  </Text>
+                <View style={{ width: 60 }}>
+                  <Text></Text>
+                </View>
+              </View>
+    
+          <FlatList
+            style={{
+              maxHeight: height/1.65
+            }}
+            ItemSeparatorComponent={
+                <View
+                  style={{
+                    backgroundColor: styles.colors.background._800,
+                    height: 1,
+                  }}
+                />
+              }
+            data={filteredData}
+            keyExtractor={(item) => item._id}
+            ListEmptyComponent={() => (
+              <Text
+                style={{
+                  padding: 20,
+                  color: styles.colors.text._200,
+                  backgroundColor: styles.colors.background._900,
+                  opacity: 0.5,
+                }}
+              >
+                No data found
+              </Text>
+            )}
+            renderItem={({ item }) => (
+              <View
+                style={{
+                  ...styles.tableRow,
+                  backgroundColor: styles.colors.background._900,
+                }}
+              >
+                <TouchableOpacity
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flex: 1,
+                  }}
+                  onPress={() => {
+                    router.push({
+                      pathname: "/profile",
+                      params: {
+                        ...item,
+                        ...item.qualifyingExamDetails,
+                        ...item.tcDetailsOnAdmission,
+                        user: "admin",
+                      },
+                    });
+                  }}
+                >
+                  <View style={{ flex: 1, justifyContent: "center" }}>
+                    <Text style={{ textAlign: "center", color: styles.colors.text._50 }}>
+                      {item.name}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1, justifyContent: "center" }}>
+                    <Text style={{ textAlign: "center", color: styles.colors.text._50 }}>
+                      {item.class}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1, justifyContent: "center" }}>
+                    <Text style={{ textAlign: "center", color: styles.colors.text._50 }}>
+                      {item.admissionNo}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                      padding: 10,
+                    }}
+                  >
+                    <Text style={{ textAlign: "center", color: styles.colors.text._50 }}>
+                      {item.dob}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <View
+                  style={{
+                    minWidth: 50,
+                    justifyContent: "center",
+                    paddingRight: 5,
+                  }}
+                >
+                  <TouchableOpacity
+                    style={{
+                      flex: 1,
+                      backgroundColor: styles.colors.primary._50,
+                      justifyContent: "center",
+                      borderRadius: 50,
+                      maxWidth: 50,
+                      maxHeight: 25,
+                    }}
+                    onPress={() => verifyStudent(item._id)}
+                  >
+                    <Text
+                      style={{
+                        textAlign: "center",
+                        color: styles.colors.text._950,
+                        fontSize: 13,
+                      }}
+                    >
+                      Verify
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          />      
+          </View>
           </View>
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }

@@ -3,8 +3,8 @@ import { View, SafeAreaView, StatusBar } from "react-native";
 import { TileCard } from "../../components";
 import { useRouter } from "expo-router";
 
-import admissionImg from "../../imgs/adminImages/Add.png";
-import cameraImg from "../../imgs/adminImages/Camera.png";
+import { Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import { useContext } from "react";
 import { Context } from "../../stores/Context";
@@ -25,18 +25,13 @@ export default function Admin() {
     }
   }, [isAdminLoggedIn]);
 
-  if (showCamera) {
-    StatusBar.setBackgroundColor("#000");
-  } else {
-    StatusBar.setBackgroundColor(styles.common.primaryColor);
-  }
 
   return (
     <SafeAreaView
       style={{
-        backgroundColor: styles.common.backgroundColor,
+        backgroundColor: styles.colors.background._950,
         flex: 1,
-        padding: 40,
+        padding: 20,
       }}
     >
       <View
@@ -50,14 +45,14 @@ export default function Admin() {
         }}
       >
         <TileCard
-          source={admissionImg}
+          source={<Feather name="user-plus" size={60} color={styles.colors.text._50} style={{ marginLeft: 13 }} />}
           text="Admission"
           onPress={() => {
             router.push("/admin/admission");
           }}
         />
         <TileCard
-          source={cameraImg}
+          source={<Ionicons name="camera-outline" size={60} color={styles.colors.text._50} />}
           text="Camera"
           onPress={() => {
             setShowCamera(true);

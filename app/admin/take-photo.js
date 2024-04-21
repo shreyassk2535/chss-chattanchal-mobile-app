@@ -220,7 +220,7 @@ export default function TakePhoto(props) {
 
   return (
     <Modal {...props}>
-      <View style={{ backgroundColor: styles.common.backgroundColor, flex: 1 }}>
+      <View style={{ backgroundColor: styles.colors.background._50, flex: 1 }}>
         {/* <View
           styles={{
             flex: 1,
@@ -306,7 +306,7 @@ export default function TakePhoto(props) {
                   flex: 1,
                   justifyContent: "center",
                   alignItems: "center",
-                  backgroundColor: styles.common.backgroundColor,
+                  backgroundColor: styles.colors.background._50,
                 }}
               >
                 <ActivityIndicator

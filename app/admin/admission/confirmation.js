@@ -36,9 +36,9 @@ export default function Confirmation() {
     loadData();
   };
 
-  function loadData() {
+  async function loadData() {
     setError("");
-    Axios.get("admin/students-to-confirm")
+    await Axios.get("admin/students-to-confirm")
       .then((res) => setData(res.data))
       .catch((err) => {
         if (err.response == undefined) {
@@ -134,12 +134,12 @@ export default function Confirmation() {
     return "";
   };
 
-  useEffect(loadData, []);
+  useEffect(()=>{loadData()}, []);
 
   return (
     <SafeAreaView
       style={{
-        backgroundColor: styles.common.backgroundColor,
+        backgroundColor: styles.colors.background._950,
         flex: 1,
       }}
     >
@@ -148,11 +148,11 @@ export default function Confirmation() {
           <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
         }
         style={{
-          paddingLeft: 40,
-          paddingRight: 40,
+          paddingLeft: 20,
+          paddingRight: 20,
+          paddingTop: 62,
         }}
       >
-        <Hero img={verificationImg} />
 
         <View>
           <View
@@ -242,8 +242,9 @@ export default function Confirmation() {
                   <Text
                     style={{
                       padding: 20,
-                      color: "grey",
-                      backgroundColor: styles.common.inputBackground,
+                      color: styles.colors.text._200,
+                      backgroundColor: styles.colors.background._900,
+                      opacity: .5
                     }}
                   >
                     No data found
@@ -255,8 +256,8 @@ export default function Confirmation() {
                       style={{
                         ...styles.tableRow,
                         borderTopWidth: 1,
-                        borderColor: styles.common.borderColor,
-                        backgroundColor: styles.common.inputBackground,
+                        borderColor: styles.colors.background._800,
+                        backgroundColor: styles.colors.background._900,
                       }}
                     >
                       <TouchableOpacity
@@ -286,7 +287,7 @@ export default function Confirmation() {
                           <Text
                             style={{
                               textAlign: "center",
-                              color: styles.common.color,
+                              color: styles.colors.text._50,
                             }}
                           >
                             {item.name}
@@ -296,7 +297,7 @@ export default function Confirmation() {
                           <Text
                             style={{
                               textAlign: "center",
-                              color: styles.common.color,
+                              color: styles.colors.text._50,
                             }}
                           >
                             {item.class}
@@ -311,7 +312,7 @@ export default function Confirmation() {
                           <Text
                             style={{
                               textAlign: "center",
-                              color: styles.common.color,
+                              color: styles.colors.text._50,
                             }}
                           >
                             {item.admissionNo}
@@ -327,7 +328,7 @@ export default function Confirmation() {
                           <Text
                             style={{
                               textAlign: "center",
-                              color: styles.common.color,
+                              color: styles.colors.text._50,
                             }}
                           >
                             {item.dob}
@@ -344,7 +345,7 @@ export default function Confirmation() {
                         <TouchableOpacity
                           style={{
                             flex: 1,
-                            backgroundColor: "rgb(46, 194, 24)",
+                            backgroundColor: styles.colors.primary._50,
                             justifyContent: "center",
                             borderRadius: 50,
                             maxWidth: 50,
@@ -355,7 +356,7 @@ export default function Confirmation() {
                           <Text
                             style={{
                               textAlign: "center",
-                              color: "white",
+                              color: styles.colors.text._950,
                               fontSize: 10,
                             }}
                           >

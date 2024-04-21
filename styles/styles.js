@@ -15,43 +15,36 @@ const styles = (scheme) => {
 
   return StyleSheet.create({
     version: theme.version,
-    common: {
-      color: theme.color,
-      primaryColor: theme.primaryColor,
-      primaryDarkColor: theme.primaryDarkColor,
-      secondaryColor: theme.secondaryColor,
-      backgroundColor: theme.backgroundColor,
-
-      dividerColor: theme.dividerColor,
-      borderColor: theme.E3,
-      borderColorLight: theme.E2,
-      popUpBackground: theme.popUpBackground,
-      inputBackground: theme.E1,
-    },
+    colors: theme.colors,
 
     components: {
       textInput: {
         placeHolder: {
-          color: theme.color,
+          color: theme.colors.text._200 + "77",
         },
       },
       dropDown: {
         basicStyle: {
-          backgroundColor: theme.E1,
-          borderColor: theme.E3,
-          borderRadius: 10,
+          backgroundColor: theme.colors.background._900,
+          borderColor: theme.colors.background._800,
+          borderRadius: 30,
+          paddingLeft: 5
         },
         selectedItemContainerStyle: {
-          backgroundColor: theme.E3,
+          backgroundColor: theme.colors.background._800,
         },
         dropDownContainerStyle: {
-          borderColor: theme.E3,
-          backgroundColor: theme.E2,
-          color: theme.color,
+          borderColor: theme.colors.background._800,
+          backgroundColor: theme.colors.background._900,
+          color: theme.colors.text._50,
+          borderRadius: 30,
+        
         },
         textStyle: {
-          color: theme.color,
+          color: theme.colors.text._50,
+          paddingLeft: 20
         },
+        
       },
     }, // Custom Components
 
@@ -61,39 +54,39 @@ const styles = (scheme) => {
       alignSelf: "center",
       marginBottom: 30,
       paddingTop: 100,
-      color: theme.color,
+      color: theme.colors.text._50,
     },
     input: {
-      backgroundColor: theme.E1,
+      backgroundColor: theme.colors.background._900,
       height: 50,
-      borderRadius: 10,
-      paddingLeft: 15,
+      borderRadius: 50,
+      paddingLeft: 25,
       borderWidth: 1,
-      borderColor: theme.E3,
-      color: theme.color
+      borderColor: theme.colors.background._800,
+      color: theme.colors.text._50
     },
     btn: {
-      backgroundColor: theme.secondaryColor,
+      backgroundColor: theme.colors.primary._300,
       height: 40,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      borderRadius: 7,
+      borderRadius: 50,
     },
     btnText: {
-      color: "white",
-      fontSize: 20,
-      fontWeight: 500,
+      color: theme.colors.text._950,
+      fontSize: 18,
+      fontWeight: 400,
     },
     error: {
-      color: "red",
+      color: "#f77",
       alignSelf: "center",
-      paddingTop: 50,
+      paddingTop: 10,
     },
     link: {
       fontSize: 12,
       paddingLeft: 5,
-      color: "#cd57d8",
+      color: theme.colors.primary._400,
     },
     tile: {
       display: "flex",
@@ -103,8 +96,8 @@ const styles = (scheme) => {
       height: 120,
       width: "100%",
       overflow: "hidden",
-      backgroundColor: theme.E2,
-      borderRadius: 15,
+      backgroundColor: theme.colors.background._900,
+      borderRadius: 20,
 
       paddingRight: 20,
     },
@@ -120,11 +113,10 @@ const styles = (scheme) => {
     tileText: {
       fontWeight: 600,
       fontSize: 18,
-      color: theme.color,
+      color: theme.colors.text._50,
     },
     divider: {
-      borderBottomWidth: 1,
-      borderColor: theme.dividerColor,
+      borderBottomWidth: 0,
       marginTop: 40,
       marginBottom: 20,
     },
@@ -138,38 +130,41 @@ const styles = (scheme) => {
       fontWeight: 600,
       marginBottom: 30,
       marginTop: 15,
-      color: theme.color,
+      color: theme.colors.text._50,
+      textAlign: "center",
+      width: "100%"
     },
     newAdmissionText: {
-      marginBottom: 10,
-      marginTop: 10,
-      paddingLeft: 5,
-      color: theme.color,
+      marginBottom: 7,
+      marginTop: 15,
+      paddingLeft: 15,
+      color: theme.colors.text._50,
     },
     mandatory: {
-      color: "red",
+      color: "#f77",
     },
 
     tableBox: {
-      marginBottom: 50,
     },
     table: {
-      borderRadius: 10,
+      borderRadius: 20,
       overflow: "hidden",
-      borderColor: theme.E3,
+      borderColor: theme.colors.background._800,
       borderWidth: 1,
+      backgroundColor: theme.colors.background._900
     },
     tableHeader: {
       flexDirection: "row",
-      backgroundColor: theme.primaryColor,
+      backgroundColor: theme.colors.background._800,
 
       padding: 7,
       minHeight: 45,
 
-      alignContent: "center",
+      alignItems: "center",
     },
     tableRow: {
       flexDirection: "row",
+      padding: 5,
     },
 
     verificationImg: {

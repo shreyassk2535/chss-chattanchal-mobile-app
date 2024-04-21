@@ -12,6 +12,7 @@ import {
   View,
   ActivityIndicator,
 } from "react-native";
+import LoginImage from "../imgs/login.svg"
 
 export default function Login() {
   const router = useRouter();
@@ -32,11 +33,11 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const [inputColor, setInputColor] = useState(styles.common.borderColor);
+  const [inputColor, setInputColor] = useState(styles.colors.background._800);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setInputColor(styles.common.borderColor);
+    setInputColor(styles.colors.background._800);
   }, [styles]);
 
   function handleClick() {
@@ -57,7 +58,7 @@ export default function Login() {
           setIsLoading(false);
 
           if (err?.response?.status == 401) {
-            setInputColor("red");
+            setInputColor("#f77");
             setError(err.response.data);
           } else if (err?.response?.status === undefined) {
             setError("Server connection error");
@@ -80,7 +81,7 @@ export default function Login() {
         .catch((err) => {
           setIsLoading(false);
           if (err?.response?.status == 401) {
-            setInputColor("red");
+            setInputColor("#f77");
             setError(err.response.data);
           } else if (err?.response?.status === undefined) {
             setError("Server connection error");
@@ -107,15 +108,19 @@ export default function Login() {
   return (
     <SafeAreaView
       style={{
-        backgroundColor: styles.common.backgroundColor,
+        backgroundColor: styles.colors.background._950,
         flex: 1,
-        justifyContent: "center",
+        justifyContent: "flex-end",
         minHeight: 500,
-        padding: 40,
+        padding: 20,
         gap: 20,
+        paddingBottom: 50
       }}
     >
-      <Text style={styles.loginHeaderMain}>CHSS CHATTANCHAL</Text>
+        <LoginImage width={"100%"} height={"50%"} style={{
+        color:styles.colors.text._50,
+        }}/>
+      {/*<Text style={styles.loginHeaderMain}>CHSS CHATTANCHAL</Text>*/}
       {/* <Text style={styles.loginHeader}>Start Login</Text> */}
       <View style={{ zIndex: 999 }}>
         <DropDownPickerComponent
@@ -136,7 +141,7 @@ export default function Login() {
         onChangeText={(text) => {
           setUserName(text.trim());
           setError();
-          setInputColor(styles.common.borderColor);
+          setInputColor(styles.colors.background._800);
         }}
       />
       <TextInput
@@ -148,35 +153,36 @@ export default function Login() {
         onChangeText={(text) => {
           setPassword(text.trim());
           setError();
-          setInputColor(styles.common.borderColor);
+          setInputColor(styles.colors.background._800);
         }}
       />
       <Link href="/login" style={styles.link}>
         {/* <Link href="#" style={styles.link}> Replace with this when needed*/}
         Forget password?
       </Link>
-      <TouchableOpacity
-        style={{ ...styles.btn, marginTop: 40 }}
-        onPress={handleClick}
-      >
-        <Text style={styles.btnText}>LOGIN</Text>
-      </TouchableOpacity>
-
+      
+      <Text style={styles.error}>{error}</Text>
+      
       {userType == "teacher" ? (
         <TouchableOpacity
-          style={{ alignItems: "center", position: "relative" }}
+          style={{ alignItems: "center", position: "relative", marginTop: 40 }}
           onPress={() => router.push("teacher/signup")}
         >
-          <Text style={{ color: "grey", fontSize: 15, fontWeight: 500 }}>
+          <Text style={{ color: styles.colors.text._300, fontSize: 15, fontWeight: 500, opacity: .5 }}>
             SIGNUP
           </Text>
         </TouchableOpacity>
       ) : (
         ""
       )}
+      
+      <TouchableOpacity
+        style={{ ...styles.btn,  }}
+        onPress={handleClick}
+      >
+        { isLoading ?   (<ActivityIndicator size="small" animating={isLoading} color={styles.colors.text._950} />) : (<Text style={styles.btnText}>LOGIN</Text>) }
+      </TouchableOpacity>
 
-      <Text style={styles.error}>{error}</Text>
-      <ActivityIndicator size="small" animating={isLoading} color="#28B4AB" />
-    </SafeAreaView>
+  </SafeAreaView>
   );
 }

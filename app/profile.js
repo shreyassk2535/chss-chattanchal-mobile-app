@@ -10,12 +10,13 @@ import { useRouter } from "expo-router";
 export default function Profile() {
   const [img, setImg] = useState(profileImg);
 
-  const { styles } = useContext(Context);
+  const { styles, setAppBarTitle } = useContext(Context);
 
   const data = useSearchParams();
   const router = useRouter();
 
   function getImg() {
+    
     Axios.get(`${data.user}/get-student-photo?studentId=${data._id}`)
       .then((res) => {
         setImg("data:img/jpeg;base64," + res.data);
@@ -27,15 +28,20 @@ export default function Profile() {
           setImg(profileImg);
         }
       });
+      
   }
 
   useEffect(getImg, [data]);
+  useEffect(()=>{
+    
+      setAppBarTitle(data.name)
+  }, [data])
 
   return (
     <>
       <ScrollView
         style={{
-          backgroundColor: styles.common.backgroundColor,
+          backgroundColor: styles.colors.background._950,
           flex: 1,
         }}
         contentContainerStyle={{
@@ -44,14 +50,14 @@ export default function Profile() {
       >
         <View
           style={{
-            backgroundColor: styles.common.inputBackground,
+            backgroundColor: styles.colors.inputBackground,
             flex: 1,
             width: 350,
             gap: 15,
             marginTop: 50,
             marginBottom: 50,
 
-            borderColor: styles.common.borderColor,
+            borderColor: styles.colors.borderColor,
             borderWidth: 1,
             borderRadius: 10,
             padding: 20,
@@ -63,14 +69,14 @@ export default function Profile() {
               style={{ height: 160, width: 160, borderRadius: 10 }}
             />
           </View>
-          <View style={{ flexDirection: "row", gap: 5 }}>
+          <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
             <Text
-              style={{ flex: 1, fontWeight: 800, color: styles.common.color }}
+              style={{ flex: 1, fontWeight: 800, color: styles.colors.text._50 }}
             >
               Name:
             </Text>
             <Text
-              style={{ flex: 1, fontWeight: 800, color: styles.common.color }}
+              style={{ flex: 1, fontWeight: 800, color: styles.colors.text._50 }}
             >
               {" "}
               {data.name}
@@ -79,11 +85,11 @@ export default function Profile() {
           {data.class == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Class:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.class}
               </Text>
@@ -92,11 +98,11 @@ export default function Profile() {
           {data.aadhaarNo == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Aadhaar No:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.aadhaarNo}
               </Text>
@@ -105,11 +111,11 @@ export default function Profile() {
           {data.admissionDate == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Admission Date:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.admissionDate}
               </Text>
@@ -118,11 +124,11 @@ export default function Profile() {
           {data.admissionNo == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Admission No:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.admissionNo}
               </Text>
@@ -131,11 +137,11 @@ export default function Profile() {
           {data.applicationNo == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50}}>
                 Application No:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.applicationNo}
               </Text>
@@ -144,11 +150,11 @@ export default function Profile() {
           {data.caste == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Caste:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.caste}
               </Text>
@@ -157,11 +163,11 @@ export default function Profile() {
           {data.category == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Category:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.category}
               </Text>
@@ -170,11 +176,11 @@ export default function Profile() {
           {data.course == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Course:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.course}
               </Text>
@@ -183,9 +189,9 @@ export default function Profile() {
           {data.dob == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>Dob:</Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>Dob:</Text>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.dob}
               </Text>
@@ -194,11 +200,11 @@ export default function Profile() {
           {data.gender == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Gender:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.gender}
               </Text>
@@ -207,11 +213,11 @@ export default function Profile() {
           {data.nameOfParent == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Name of Parent:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.nameOfParent}
               </Text>
@@ -220,11 +226,11 @@ export default function Profile() {
           {data.occupationOfParent == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Occupation of parent:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.occupationOfParent}
               </Text>
@@ -233,11 +239,11 @@ export default function Profile() {
           {data.phone == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Phone:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.phone}
               </Text>
@@ -246,11 +252,11 @@ export default function Profile() {
           {data.linguisticMinority == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Linguistic Minority:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.linguisticMinority}
               </Text>
@@ -259,9 +265,9 @@ export default function Profile() {
           {data.obc == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>OBC:</Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>OBC:</Text>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.obc}
               </Text>
@@ -270,11 +276,11 @@ export default function Profile() {
           {data.relationshipWithGuardian == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Relationship with guardian:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.relationshipWithGuardian}
               </Text>
@@ -283,11 +289,11 @@ export default function Profile() {
           {data.religion == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Religion:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.religion}
               </Text>
@@ -296,11 +302,11 @@ export default function Profile() {
           {data.secondLanguage == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Second language:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.secondLanguage}
               </Text>
@@ -309,11 +315,11 @@ export default function Profile() {
           {data.status == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Status:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.status}
               </Text>
@@ -323,9 +329,9 @@ export default function Profile() {
           {data.rank == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>Rank:</Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>Rank:</Text>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.rank}
               </Text>
@@ -334,9 +340,9 @@ export default function Profile() {
           {data.wgpa == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>WGPA:</Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>WGPA:</Text>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.wgpa}
               </Text>
@@ -345,11 +351,11 @@ export default function Profile() {
           {data.admissionCategory == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Admission category:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.admissionCategory}
               </Text>
@@ -371,11 +377,11 @@ export default function Profile() {
           {data.tcNumber == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Number:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.tcNumber}
               </Text>
@@ -384,9 +390,9 @@ export default function Profile() {
           {data.tcDate == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>Date:</Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>Date:</Text>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.tcDate}
               </Text>
@@ -395,11 +401,11 @@ export default function Profile() {
           {data.tcSchool == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 School:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.tcSchool}
               </Text>
@@ -419,11 +425,11 @@ export default function Profile() {
           {data.sslcNameOfBoard == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Name of board:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.sslcNameOfBoard}
               </Text>
@@ -432,11 +438,11 @@ export default function Profile() {
           {data.sslcPassingTime == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Passing time:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.sslcPassingTime}
               </Text>
@@ -445,11 +451,11 @@ export default function Profile() {
           {data.sslcRegisterNo == undefined ? (
             ""
           ) : (
-            <View style={{ flexDirection: "row", gap: 5 }}>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+            <View style={{ flexDirection: "row", gap: 30, paddingLeft: 20 }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 Register No:
               </Text>
-              <Text style={{ flex: 1, color: styles.common.color }}>
+              <Text style={{ flex: 1, color: styles.colors.text._50 }}>
                 {" "}
                 {data.sslcRegisterNo}
               </Text>

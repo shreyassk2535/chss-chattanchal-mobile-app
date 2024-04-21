@@ -61,9 +61,9 @@ export default function Login() {
   return (
     <SafeAreaView
       style={{
-        backgroundColor: styles.common.backgroundColor,
+        backgroundColor: styles.colors.background._950,
         flex: 1,
-        justifyContent: "center",
+        justifyContent: "flex-end",
         minHeight: 500,
         padding: 40,
         gap: 20,
@@ -72,7 +72,7 @@ export default function Login() {
       <FontAwesome5
         name="lock"
         size={24}
-        color={styles.common.color}
+        color={styles.colors.text._50}
         style={{ alignSelf: "center", top: 10 }}
       />
       <Text style={{ ...styles.loginHeaderMain, paddingTop: 0 }}>
@@ -87,22 +87,22 @@ export default function Login() {
       }
         maxLength={6}
       />
-
-      <TouchableOpacity
-        style={{ ...styles.btn, marginTop: 40 }}
-        onPress={handleClick}
-      >
-        <Text style={styles.btnText}>VERIFY</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={{ alignItems: "center" }}>
-        <Text style={{ color: "grey", fontSize: 15, fontWeight: 500 }}>
+      <Text style={styles.error}>{error}</Text>
+      <TouchableOpacity style={{ alignItems: "center" , marginTop: 30}}>
+        <Text style={{ color: styles.colors.text._300, opacity: .5, fontSize: 15, fontWeight: 500 }}>
           Resend OTP
         </Text>
       </TouchableOpacity>
 
-      <Text style={styles.error}>{error}</Text>
-      <ActivityIndicator size="small" animating={isLoading} color="#28B4AB" />
-    </SafeAreaView>
+      <TouchableOpacity
+        style={{ ...styles.btn, marginBottom: 150}}
+        onPress={handleClick}
+      >
+      {isLoading ?     <ActivityIndicator size="small" animating={isLoading} color={styles.colors.text._950} /> : <Text style={styles.btnText}>VERIFY</Text>}
+      </TouchableOpacity>
+
+
+
+     </SafeAreaView>
   );
 }

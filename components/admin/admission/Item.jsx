@@ -13,6 +13,8 @@ export default function Item(props) {
           flexDirection: "row",
           alignItems: "center",
           gap: 5,
+          padding: 10,
+          paddingVertical: 15
         }}
         onPress={() => {
           router.push({
@@ -27,9 +29,7 @@ export default function Item(props) {
         <Text
           style={{
             flex: 2,
-            padding: 10,
-            paddingTop: 15,
-            color: styles.common.color,
+            color: styles.colors.text._50,
           }}
         >
           {props.data.name}
@@ -37,11 +37,8 @@ export default function Item(props) {
         <Text
           style={{
             flex: 1,
-            padding: 10,
-            paddingTop: 15,
-            backgroundColor: styles.common.inputBackground,
             textAlign: "center",
-            color: styles.common.color,
+            color: styles.colors.text._50,
           }}
         >
           {props.data.admissionNo}
@@ -49,10 +46,8 @@ export default function Item(props) {
         <Text
           style={{
             flex: 1,
-            padding: 10,
-            paddingTop: 15,
             textAlign: "center",
-            color: styles.common.color,
+            color: styles.colors.text._50,
           }}
         >
           {props.data.class}

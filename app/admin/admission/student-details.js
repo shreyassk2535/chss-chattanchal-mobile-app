@@ -1,6 +1,6 @@
 import React from "react";
 import List from "../../../imgs/adminImages/List.png";
-import Hero from "../../../components/common/Hero";
+import TileSkeleton from "../../../components/common/TileSkeleton.jsx";
 import {
   ScrollView,
   Text,
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
+  Dimensions
 } from "react-native";
 import DropDownPickerComponent from "../../../components/common/DropDown";
 import Axois from "../../../stores/Axios";
@@ -17,6 +18,8 @@ import { useRouter } from "expo-router";
 
 import { useContext } from "react";
 import { Context } from "../../../stores/Context";
+
+const { width, height } = Dimensions.get("window");
 
 export default function StudentDetials() {
   const router = useRouter();
@@ -54,8 +57,9 @@ export default function StudentDetials() {
     }
   }
 
-  function handleClick() {
-    Axois.post(
+  async function handleClick() {
+    setIsLoading(true)
+    await Axois.post(
       `admin/get-students?name=${value === "name" ? search : ""}`,
       body()
     )
@@ -77,18 +81,20 @@ export default function StudentDetials() {
           setError(err.response.data);
         }
       });
+    setIsLoading(false)
   }
 
   return (
-    <>
-      <ScrollView
+    <View
         style={{
-          backgroundColor: styles.common.backgroundColor,
-          paddingLeft: 40,
-          paddingRight: 40,
+          backgroundColor: styles.colors.background._950,
+          paddingLeft: 20,
+          paddingRight: 20,
+          paddingTop: 100,
+          flex: 1
         }}
       >
-        <Hero text={"Student Details"} img={List} />
+        
 
         <View style={{ gap: 20 }}>
           <View style={{ zIndex: 999 }}>
@@ -120,7 +126,7 @@ export default function StudentDetials() {
               style={{ ...styles.btn, minWidth: 100 }}
               onPress={handleClick}
             >
-              <Text style={styles.btnText}>Search</Text>
+              { isLoading ?   (<ActivityIndicator size="small" animating={isLoading} color={styles.colors.text._950} />) : (<Text style={styles.btnText}>Search</Text>) }
             </TouchableOpacity>
           </View>
           <View style={{ gap: 5 }}>
@@ -132,58 +138,35 @@ export default function StudentDetials() {
             >
               {error}
             </Text>
-            <ActivityIndicator
-              size="small"
-              animating={isLoading}
-              color="#28B4AB"
-            />
           </View>
         </View>
 
         <View
           style={{
-            borderColor: styles.common.borderColor,
+            borderColor: styles.colors.background._800,
             borderWidth: 1,
             marginTop: 10,
-            borderRadius: 10,
+            borderRadius: 20,
             overflow: "hidden",
-            backgroundColor: styles.common.inputBackground,
-            marginBottom: 50,
+            backgroundColor: styles.colors.background._900,
+            //marginBottom: 150,
           }}
         >
-          <FlatList
-            data={data}
-            renderItem={({ item }) => (
-              <Item data={item} link={"/profile"} user="admin" />
-            )}
-            keyExtractor={(item) => item._id}
-            ItemSeparatorComponent={
-              <View
-                style={{
-                  backgroundColor: styles.common.borderColor,
-                  height: 1,
-                }}
-              />
-            }
-            ListEmptyComponent={
-              <Text style={{ alignSelf: "center", color: "grey", padding: 30 }}>
-                Empty
-              </Text>
-            }
-            ListHeaderComponent={
-              <View
+          <View
                 style={{
                   flexDirection: "row",
-                  backgroundColor: styles.common.primaryColor,
+                  backgroundColor: styles.colors.background._800,
+                  
                 }}
               >
                 <Text
                   style={{
                     padding: 10,
                     paddingTop: 15,
+                    paddingLeft: 20,
                     flex: 2,
                     borderTopLeftRadius: 8,
-                    color: "white",
+                    color: styles.colors.text._50,
                   }}
                 >
                   Name
@@ -211,12 +194,38 @@ export default function StudentDetials() {
                 >
                   Class
                 </Text>
-              </View>
-            }
-            scrollEnabled={false}
-          />
+            </View>
+              
+            <FlatList
+              scrollEnabled={true}
+              style={{
+                maxHeight: height/2.35
+              }}
+              data={data}
+              renderItem={({ item }) => (
+                <Item data={item} link={"/profile"} user="admin" />
+              )}
+              keyExtractor={(item) => item._id}
+              ItemSeparatorComponent={
+                <View
+                  style={{
+                    backgroundColor: styles.colors.background._800,
+                    height: 1,
+                  }}
+                />
+              }
+              ListEmptyComponent={
+              
+                isLoading ? <><TileSkeleton/><TileSkeleton/></> :
+                (<Text style={{ alignSelf: "center", color: styles.colors.text._200, padding: 30, opacity: .5 }}>
+                  Empty
+                </Text>)
+              }
+  
+              //getItemLayout={(data, index) => (isLoading ? {index, length: 20, offset: 20 * index } : getItemLayout(data, index))}
+ 
+            />
         </View>
-      </ScrollView>
-    </>
+    </View>
   );
 }

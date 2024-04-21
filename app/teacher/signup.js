@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
+import LoginImage from "../../imgs/login.svg"
 
 export default function Login() {
   const router = useRouter();
@@ -27,11 +28,11 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const [inputColor, setInputColor] = useState(styles.common.borderColor);
+  const [inputColor, setInputColor] = useState(styles.colors.background._900);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setInputColor(styles.common.borderColor);
+    setInputColor(styles.colors.background._800);
   }, [styles]);
 
   function handleClick() {
@@ -44,13 +45,13 @@ export default function Login() {
         router.push("/teacher/signup-otp");
         setIsLoading(false);
         setError("");
-        setInputColor(styles.common.borderColor);
+        setInputColor(styles.colors.background._800);
       })
       .catch((err) => {
         setIsLoading(false);
 
         if (err?.response?.status == 401) {
-          setInputColor("red");
+          setInputColor("#f77");
           setError(err.response.data);
         } else if (err?.response?.status === undefined) {
           setError("Server connection error");
@@ -63,15 +64,18 @@ export default function Login() {
   return (
     <SafeAreaView
       style={{
-        backgroundColor: styles.common.backgroundColor,
+        backgroundColor: styles.colors.background._950,
         flex: 1,
-        justifyContent: "center",
+        justifyContent: "flex-end",
         minHeight: 500,
         padding: 40,
         gap: 20,
+        paddingBottom: 50,
       }}
     >
-      <Text style={styles.loginHeaderMain}>CHSS Chattanchal</Text>
+      <LoginImage width={"100%"} height={"50%"} style={{
+            color:styles.colors.text._50,
+      }}/>
       <TextInput
         style={{ ...styles.input, borderColor: inputColor }}
         placeholder="Email"
@@ -80,7 +84,7 @@ export default function Login() {
         onChangeText={(text) => {
           setEmail(text.trim());
           setError();
-          setInputColor(styles.common.borderColor);
+          setInputColor(styles.colors.background._800);
         }}
       />
       <TextInput
@@ -92,17 +96,18 @@ export default function Login() {
         onChangeText={(text) => {
           setPassword(text.trim());
           setError();
-          setInputColor(styles.common.borderColor);
+          setInputColor(styles.colors.background._800);
         }}
       />
+      
+      <Text style={styles.error}>{error}</Text>
+
       <TouchableOpacity
         style={{ ...styles.btn, marginTop: 40 }}
         onPress={handleClick}
       >
-        <Text style={styles.btnText}>SIGN UP</Text>
+        { isLoading ? <ActivityIndicator size="small" animating={isLoading} color={styles.colors.text._950} /> : <Text style={styles.btnText}>SIGN UP</Text>}
       </TouchableOpacity>
-      <Text style={styles.error}>{error}</Text>
-      <ActivityIndicator size="small" animating={isLoading} color="#28B4AB" />
-    </SafeAreaView>
+</SafeAreaView>
   );
 }

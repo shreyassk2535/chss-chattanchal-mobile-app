@@ -73,7 +73,7 @@ class Alert extends Component {
           <View
             style={{
               ...stl.container,
-              backgroundColor: styles.common.popUpBackground,
+              backgroundColor: styles.colors.secondary._850,
             }}
           >
             <View
@@ -85,7 +85,7 @@ class Alert extends Component {
               <Text
                 style={{
                   alignSelf: "center",
-                  color: styles.common.color,
+                  color: styles.colors.text._50,
                   fontWeight: 600,
                   fontSize: 18,
                 }}
@@ -95,7 +95,7 @@ class Alert extends Component {
               <Text
                 style={{
                   alignSelf: "center",
-                  color: styles.common.color,
+                  color: styles.colors.text._50,
                   fontWeight: 600,
                   marginBottom: 10,
                 }}
@@ -110,10 +110,10 @@ class Alert extends Component {
               }}
             >
               <TouchableHighlight
-                underlayColor={styles.common.borderColor}
+                underlayColor={styles.colors.secondary._900}
                 style={{
                   ...stl.button,
-                  borderColor: styles.common.borderColorLight,
+                  borderColor: styles.colors.secondary._900,
                   borderBottomLeftRadius: 10,
                   //   borderRightWidth: 1,
                   flex: 1,
@@ -131,14 +131,14 @@ class Alert extends Component {
                 <View
                   style={{
                     borderRightWidth: 1,
-                    borderColor: styles.common.borderColorLight,
+                    borderColor: styles.colors.secondary._900,
                     top: -1,
                   }}
                 >
                   <Text
                     style={{
                       alignSelf: "center",
-                      color: styles.common.color,
+                      color: styles.colors.text._50,
                       marginVertical: 20,
                     }}
                   >
@@ -147,10 +147,10 @@ class Alert extends Component {
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
-                underlayColor={styles.common.borderColor}
+                underlayColor={styles.colors.secondary._900}
                 style={{
                   ...stl.button,
-                  borderColor: styles.common.borderColorLight,
+                  borderColor: styles.colors.secondary._900,
                   //   borderWidth: 1,
                   borderBottomRightRadius: 10,
                   flex: 1,
@@ -168,7 +168,7 @@ class Alert extends Component {
                 <Text
                   style={{
                     alignSelf: "center",
-                    color: styles.common.color,
+                    color: styles.colors.text._50,
                     marginVertical: 20,
                   }}
                 >

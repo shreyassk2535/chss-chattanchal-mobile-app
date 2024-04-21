@@ -28,6 +28,7 @@ const TextInputComponent = ({ value, onChangeText, name, ...props }) => (
     value={value}
     onChangeText={(value) => onChangeText(name, value)}
     {...props}
+    
   />
 );
 
@@ -44,11 +45,11 @@ export default function NewAdmission() {
   const [camera, setCamera] = React.useState(false);
   const [focus, setFocus] = React.useState(false);
 
-  if (camera) {
-    StatusBar.setBackgroundColor("#000");
-  } else {
-    StatusBar.setBackgroundColor(styles.common.primaryColor);
-  }
+//  if (camera) {
+//    StatusBar.setBackgroundColor("#000");
+//  } else {
+//    StatusBar.setBackgroundColor(styles.common.primaryColor);
+//  }
 
   // For drop down
   const [open1, setOpen1] = React.useState(false);
@@ -283,12 +284,12 @@ export default function NewAdmission() {
     <>
       <ScrollView
         style={{
-          backgroundColor: styles.common.backgroundColor,
-          paddingLeft: 40,
-          paddingRight: 40,
+          backgroundColor: styles.colors.background._950,
+          paddingLeft: 20,
+          paddingRight: 20,
+          paddingTop: 50,
         }}
       >
-        <Hero img={admissionImg} />
 
         <Text style={styles.newAdmissionHeading}>
           Field marked with <Text style={styles.mandatory}>*</Text> are
@@ -782,11 +783,18 @@ export default function NewAdmission() {
             />
           )}
         </View>
-        <View style={{ gap: 10, paddingVertical: 10 }}>
+        
+        <View 
+        style={{
+          gap: 10,
+          paddingVertical: 10,
+          flexDirection: "row", 
+        }}>
           <TouchableOpacity
             onPress={showImagePicker}
             style={{
               ...styles.btn,
+              flex: 1,
             }}
           >
             <Text style={styles.btnText}>Choose Image</Text>
@@ -798,6 +806,7 @@ export default function NewAdmission() {
             }}
             style={{
               ...styles.btn,
+              flex: 1,
             }}
           >
             <Text style={styles.btnText}>Take Photo</Text>
@@ -810,7 +819,7 @@ export default function NewAdmission() {
           onPress={disabled ? null : handleClick}
           style={{
             ...styles.btn,
-            backgroundColor: disabled ? "grey" : styles.common.secondaryColor,
+            backgroundColor: disabled ? "grey" : styles.colors.primary._50,
             marginTop: 30,
           }}
         >

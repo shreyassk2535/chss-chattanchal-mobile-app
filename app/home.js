@@ -40,6 +40,7 @@ export default function Home() {
         ? false
         : true
       : true
+     
   );
   // const [redirect, setRedirect] = useState(false);
   // Change this to see the home screen
@@ -125,7 +126,7 @@ export default function Home() {
   return (
     <>
       {redirect ? (
-        <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
+        <SafeAreaView style={{ backgroundColor: "red", flex: 1 }}>
           <Loader show={true} />
         </SafeAreaView>
       ) : (

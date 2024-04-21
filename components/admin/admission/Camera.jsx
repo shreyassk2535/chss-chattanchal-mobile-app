@@ -107,7 +107,7 @@ export default function CameraScreen(props) {
           style={{
             position: "absolute",
             flex: 1,
-            backgroundColor: styles.common.backgroundColor,
+            backgroundColor: styles.colors.background._950,
             zIndex: 5,
             width: "100%",
             height: "100%",
@@ -168,8 +168,8 @@ export default function CameraScreen(props) {
             <TouchableOpacity
               onPress={takePicture}
               style={{
-                backgroundColor: styles.common.inputBackground,
-                borderColor: styles.common.borderColor,
+                backgroundColor: styles.colors.background._900,
+                borderColor: styles.colors.background._800,
                 borderWidth: 5,
                 width: 80,
                 minHeight: 80,
@@ -183,7 +183,7 @@ export default function CameraScreen(props) {
           style={{
             position: "absolute",
             flex: 1,
-            backgroundColor: styles.common.backgroundColor,
+            backgroundColor: styles.colors.background._950,
             zIndex: 5,
             width: "100%",
             height: "100%",
@@ -226,7 +226,7 @@ export default function CameraScreen(props) {
               style={{
                 width: Screen.width / 5,
                 height: Screen.width / 5,
-                backgroundColor: styles.common.inputBackground,
+                backgroundColor: styles.colors.background._900,
                 borderRadius: 1000,
                 justifyContent: "center",
                 alignItems: "center",
@@ -243,7 +243,7 @@ export default function CameraScreen(props) {
               style={{
                 width: Screen.width / 5,
                 height: Screen.width / 5,
-                backgroundColor: styles.common.inputBackground,
+                backgroundColor: styles.colors.background._900,
                 borderRadius: 1000,
                 justifyContent: "center",
                 paddingLeft: 26,

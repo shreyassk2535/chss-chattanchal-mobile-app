@@ -12,16 +12,18 @@ export default function Layout() {
 
   return (
     <Tabs
+      options={{ animation: 'fade' }}
+      shifting={true}
       screenOptions={{
         tabBarHideOnKeyboard: true,
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
           height: 50,
-          backgroundColor: styles.common.primaryColor,
+          backgroundColor: styles.colors.background._950,
           borderTopWidth: 0,
         },
-        tabBarActiveBackgroundColor: styles.common.primaryDarkColor,
+        tabBarActiveBackgroundColor: styles.colors.secondary._900,
       }}
     >
       <Tabs.Screen

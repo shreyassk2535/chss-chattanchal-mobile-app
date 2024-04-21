@@ -28,10 +28,10 @@ export default function Hero(props) {
           style={{
             fontSize: 25,
             fontWeight: 500,
-            borderColor: styles.common.dividerColor,
+            borderColor: styles.colors.secondary._900,
             borderRightWidth: 2,
             paddingRight: 20,
-            color: styles.common.color,
+            color: styles.colors.text._50,
           }}
         >
           {capitalizeFirstLetter(path[3]).replace("-", " ")}
@@ -39,7 +39,7 @@ export default function Hero(props) {
       </View>
       <View
         style={{
-          borderColor: styles.common.dividerColor,
+          borderColor: styles.colors.secondary._900,
           marginBottom: 10,
           borderBottomWidth: 2,
         }}

@@ -38,10 +38,13 @@ export default function UserProfile({ show, setShow }) {
       })
       .catch((err) => {});
   }
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).replace("-", " ")
+  }
   return (
     <Modal
       transparent={true}
-      animationType="fade"
+      animationType="slide"
       visible={show}
       onRequestClose={() => {
         setShow(false);
@@ -65,19 +68,29 @@ export default function UserProfile({ show, setShow }) {
         <View
           style={{
             ...stl.container,
-            backgroundColor: styles.common.popUpBackground,
+            backgroundColor: styles.colors.background._900,
+            width: "100%",
           }}
         >
           <View
             style={{
-              paddingVertical: 30,
+              paddingTop: 35,
+              paddingBottom: 15, 
               gap: 20,
+              flexDirection: "row",
+              jujustifyContent: "flex-start",
+              alignItems: "center",
+              width: "90%",
+              paddingHorizontal: 15,
+              
+              borderBottomWidth: 1,
+              borderColor: styles.colors.background._800,
             }}
           >
             <View
               style={{
-                width: 100,
-                height: 100,
+                width: 50,
+                height: 50,
                 backgroundColor: "grey",
                 borderRadius: 1000,
                 alignSelf: "center",
@@ -97,16 +110,16 @@ export default function UserProfile({ show, setShow }) {
               >
                 <View
                   style={{
-                    width: 35,
-                    height: 35,
+                    width: 20,
+                    height: 20,
                     backgroundColor: "#ddd",
                     borderRadius: 1000,
                   }}
                 />
                 <View
                   style={{
-                    width: 80,
-                    height: 80,
+                    width: 50,
+                    height: 50,
                     backgroundColor: "#ddd",
                     borderRadius: 1000,
                   }}
@@ -117,22 +130,23 @@ export default function UserProfile({ show, setShow }) {
               style={{
                 fontWeight: 500,
                 minWidth: 125,
-                color: styles.common.color,
+                color: styles.colors.text._50,
               }}
               numberOfLines={1}
             >
-              Logged in as: {pathname.toUpperCase()}
+              Logged in as {capitalizeFirstLetter(pathname)}
             </Text>
           </View>
           <View
             style={{
               justifyContent: "space-around",
               minWidth: "100%",
+              
             }}
           >
-            <TouchableHighlight
-              underlayColor={styles.common.borderColor}
-              style={{ ...stl.button, borderColor: styles.common.borderColorLight }}
+            <TouchableOpacity
+              
+              style={{ ...stl.button}}
               onPress={async () => {
                 let result = await WebBrowser.openBrowserAsync(
                   "https://chattanchalhss.com/login"
@@ -140,35 +154,19 @@ export default function UserProfile({ show, setShow }) {
                 setShow(false);
               }}
             >
-              <Text style={{ alignSelf: "center", color: styles.common.color }}>
+              <Text style={{ color: styles.colors.text._50}}>
                 Change Password
               </Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor={styles.common.borderColor}
-              style={{ ...stl.button, borderColor: styles.common.borderColorLight }}
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ ...stl.button}}
               onPress={Logout}
             >
-              <Text style={{ alignSelf: "center", color: styles.common.color }}>
-                Logout
+              <Text style={{ color: styles.colors.text._50 }}>
+                Logout {capitalizeFirstLetter(pathname)}
               </Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor={styles.common.borderColor}
-              style={{
-                ...stl.button,
-                borderColor: styles.common.borderColorLight,
-                borderBottomLeftRadius: 10,
-                borderBottomRightRadius: 10,
-              }}
-              onPress={() => {
-                setShow(false);
-              }}
-            >
-              <Text style={{ alignSelf: "center", color: styles.common.color }}>
-                Close
-              </Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
+
           </View>
         </View>
       </SafeAreaView>
@@ -178,19 +176,23 @@ export default function UserProfile({ show, setShow }) {
 
 const stl = StyleSheet.create({
   container: {
-    borderRadius: 10,
-    elevation: 100,
+    borderRadius: 40,
     justifyContent: "center",
     alignItems: "center",
-    maxWidth: 300,
+    paddingBottom: 30
   },
   modal: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
+    width: "100%",
+    
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
   },
   button: {
-    paddingVertical: 20,
-    borderTopWidth: 1,
+    minWidth: "100%",
+    paddingHorizontal: 40,
+    paddingTop: 25,
+    borderTopWidth: 0,
   },
 });

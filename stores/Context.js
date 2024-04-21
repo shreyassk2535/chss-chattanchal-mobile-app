@@ -7,6 +7,7 @@ export const Context = createContext();
 export function ContextProvider({ children }) {
   const color = useColorScheme();
 
+  const [appBarTitle, setAppBarTitle] = useState("CHSS chattanchal")
   const [styles, setStyles] = useState(theme(color));
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState();
   const [isTeacherLoggedIn, setIsTeacherLoggedIn] = useState();
@@ -20,6 +21,8 @@ export function ContextProvider({ children }) {
     <Context.Provider
       value={{
         styles,
+        appBarTitle,
+        setAppBarTitle,
         isAdminLoggedIn,
         setIsAdminLoggedIn,
         isTeacherLoggedIn,
